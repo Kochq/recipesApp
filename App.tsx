@@ -1,10 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { supabase } from './lib/supabase';
+import { recipe } from './lib/types/types';
 
 export default function App() {
-    const [recipes, setRecipes] = useState([]);
+    const [recipes, setRecipes] = useState<recipe[]>([]);
 
     useEffect(() => {
         const fetchRecipes = async () => {
@@ -20,13 +20,31 @@ export default function App() {
         fetchRecipes();
     }, [])
 
+    const onClick = (e: { nativeEvent: { text: string; }; }) => {
+        alert("Escribiste: " + e.nativeEvent.text)
+    }
+
     return (
         <View style={styles.container}>
-            <Text>Open p App.tsx to stat working on your app!</Text>
-            <StatusBar style="auto" />
+            <StatusBar
+                animated={true}
+                backgroundColor="#61dafb"
+            />
+            <Text>Esta es una prueba</Text>
+
+            <TextInput
+                style={{
+                    height: 40,
+                    borderColor: "gray",
+                    borderWidth: 1,
+                    width: 140
+                }}
+                onSubmitEditing={onClick}
+            >
+            </TextInput>
+
             <FlatList
                 data={recipes}
-                keyExtractor={item => item.id}
                 renderItem={({ item }) => <Text>{item.title}</Text>}
             />
         </View>
